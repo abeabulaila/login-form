@@ -10,7 +10,7 @@ export default function Home() {
 
   const { data: session } = useSession();
 
-  function handleSignOut(){
+  function handleSignOut() {
     signOut()
   }
 
@@ -19,7 +19,7 @@ export default function Home() {
       <Head>
         <title>Home Page</title>
       </Head>
-      {session ? User({session, handleSignOut}) : Guest()}
+      {session ? User({ session, handleSignOut }) : Guest()}
     </div>
 
   )
@@ -38,7 +38,7 @@ function Guest() {
 }
 
 //Authorize User
-function User({session, handleSignOut}) {
+function User({ session, handleSignOut }) {
   return (
     <main className='container mx-auto text-center py-20'>
       <h3 className='text-4xl font-bold'> Authorize User Homepage </h3>
@@ -57,17 +57,17 @@ function User({session, handleSignOut}) {
   )
 }
 
-export async function getServerSideProps({req}){
-  const session = await getSession({req})
-    if(!session){
-      return {
-        redirect: {
-          destination: '/login',
-          permanent: false
-        }
+export async function getServerSideProps({ req }) {
+  const session = await getSession({ req })
+  if (!session) {
+    return {
+      redirect: {
+        destination: '/login',
+        permanent: false
       }
     }
-  return{
+  }
+  return {
     props: { session }
 
   }

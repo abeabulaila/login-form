@@ -11,9 +11,15 @@ export default function Login() {
     const [show, setShow] = useState(false)
 
     //Google Handler Function
-    async function handleGoogleSignin(){
-        signIn('google', { callbackUrl: "http://localhost:3000"})
+    async function handleGoogleSignin() {
+        signIn('google', { callbackUrl: "http://localhost:3000" })
     }
+
+    //Discord Handler Function
+    async function handleDiscordSignin() {
+        signIn('discord', { callbackUrl: "http://localhost:3000" })
+    }
+
 
     return (
         <Layout>
@@ -59,8 +65,8 @@ export default function Login() {
                         </button>
                     </div>
                     <div className='input-button'>
-                        <button type='button' className={styles.button_custom}>
-                            Sign In With Github <Image src={'/assets/github.svg'} width={25} height={25}></Image>
+                        <button type='button' onClick={handleDiscordSignin} className={styles.button_custom}>
+                            Sign In With Discord <Image src={'/assets/discord.svg'} width={25} height={25}></Image>
                         </button>
                     </div>
                 </form>
