@@ -31,7 +31,7 @@ color: #CBD5E9;
     color: #6366f1;
 }
 
-.input_text:not([type=email]) ~ span:hover *{
+.input_text:not([type=email], [type=username]) ~ span:hover *{
     color: #6366f1;
     cursor: pointer;
 }
