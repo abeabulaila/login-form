@@ -1,13 +1,10 @@
 import Head from 'next/head'
-import Image from 'next/image'
 import styles from '@/styles/Home.module.css'
 import Link from 'next/link'
-import { useState } from 'react'
 import { getSession, useSession, signOut } from 'next-auth/react'
 
-
 export default function Home() {
-
+  
   const { data: session } = useSession();
 
   function handleSignOut() {
@@ -25,7 +22,7 @@ export default function Home() {
   )
 }
 
-//Guest
+//Non-Authorized User
 function Guest() {
   return (
     <main className='container mx-auto text-center py-20'>
@@ -41,7 +38,7 @@ function Guest() {
 function User({ session, handleSignOut }) {
   return (
     <main className='container mx-auto text-center py-20'>
-      <h3 className='text-4xl font-bold'> Authorize User Homepage </h3>
+      <h3 className='text-4xl font-bold'> Authorized User Homepage </h3>
       <div className='details'>
         <h5>{session.user.name}</h5>
         <h5>{session.user.email}</h5>
