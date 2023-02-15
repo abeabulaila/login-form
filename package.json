@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@next/font": "13.1.6",
+    "bcryptjs": "^2.4.3",
     "formik": "^2.2.9",
     "next": "13.1.6",
     "next-auth": "^4.19.2",
