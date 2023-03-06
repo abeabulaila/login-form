@@ -35,12 +35,12 @@ export default function Login() {
 
     //Google Handler Function
     async function handleGoogleSignin() {
-        signIn('google', { callbackUrl: "http://localhost:3000" })
+        signIn('google', { callbackUrl: "https://signup-login-authentication.vercel.app/" })
     }
 
     //Discord Handler Function
     async function handleDiscordSignin() {
-        signIn('discord', { callbackUrl: "http://localhost:3000" })
+        signIn('discord', { callbackUrl: "https://signup-login-authentication.vercel.app/" })
     }
 
 
