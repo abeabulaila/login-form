@@ -2,11 +2,12 @@ import Head from 'next/head'
 import styles from '@/styles/Home.module.css'
 import Link from 'next/link'
 import { getSession, useSession, signOut } from 'next-auth/react'
+import { useEffect, useState } from 'react';
 
 export default function Home() {
   
   const { data: session } = useSession();
-
+  const [discordUser, setDiscordUser] = useState({})
   function handleSignOut() {
     signOut()
   }
@@ -37,8 +38,15 @@ function Guest() {
 //Authorize User
 function User({ session, handleSignOut }) {
 
-  console.log(session.user)
-  console.log(session.user.name)
+  useEffect(() => {
+    fetch("https://signup-login-authentication.vercel.app/users/@me")
+    .then((res) => res.json())
+    .then((data) => {
+      setDiscordUser(data)
+    })
+  }, [])
+
+  console.log(discordUser)
 
   return (
     <main className='container mx-auto text-center py-20'>
