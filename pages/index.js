@@ -5,9 +5,8 @@ import { getSession, useSession, signOut } from 'next-auth/react'
 import { useEffect, useState } from 'react';
 
 export default function Home() {
-  
+
   const { data: session } = useSession();
-  const [discordUser, setDiscordUser] = useState({})
   function handleSignOut() {
     signOut()
   }
@@ -37,16 +36,17 @@ function Guest() {
 
 //Authorize User
 function User({ session, handleSignOut }) {
+  const [discordUser, setDiscordUser] = useState({})
 
   useEffect(() => {
     fetch("https://signup-login-authentication.vercel.app/users/@me")
-    .then((res) => res.json())
-    .then((data) => {
-      setDiscordUser(data)
-    })
+      .then((res) => res.json())
+      .then((data) => {
+        setDiscordUser(data)
+      })
+    console.log(discordUser)
   }, [])
 
-  console.log(discordUser)
 
   return (
     <main className='container mx-auto text-center py-20'>
@@ -54,7 +54,7 @@ function User({ session, handleSignOut }) {
       <div className='details'>
         <h5>{session.user.name}</h5>
         <h5>{session.user.email}</h5>
-      
+
       </div>
       <div className='flex justify-center'>
         <button onClick={handleSignOut} className='mt-5 px-10 py-1 rounded-sm bg-indigo bg-gray-50'>Sign Out</button>
@@ -63,7 +63,7 @@ function User({ session, handleSignOut }) {
         <Link href={'/profile'} className='mt-5 px-10 py-1 rounded-sm bg-indigo-500 text-gray'>Profile Page</Link>
       </div>
     </main>
-    
+
   )
 }
 
