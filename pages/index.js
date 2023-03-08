@@ -39,7 +39,7 @@ function User({ session, handleSignOut }) {
   const [discordUser, setDiscordUser] = useState({})
 
   useEffect(() => {
-    fetch("https://discord.com/oauth2/users/@me")
+    fetch("/users/@me")
       .then((res) => res.json())
       .then((data) => {
         setDiscordUser(data)
