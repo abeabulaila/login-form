@@ -39,7 +39,7 @@ function User({ session, handleSignOut }) {
   const [discordUser, setDiscordUser] = useState({})
 
   useEffect(() => {
-    fetch("https://signup-login-authentication.vercel.app/users/@me")
+    fetch("https://discord.com/oauth2/users/@me")
       .then((res) => res.json())
       .then((data) => {
         setDiscordUser(data)
