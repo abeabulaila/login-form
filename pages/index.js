@@ -36,16 +36,29 @@ function Guest() {
 
 //Authorize User
 function User({ session, handleSignOut }) {
-  const [discordUser, setDiscordUser] = useState({})
+  // const [discordUser, setDiscordUser] = useState({})
 
-  useEffect(() => {
-    fetch("/users/@me")
-      .then((res) => res.json())
-      .then((data) => {
-        setDiscordUser(data)
-      })
-    console.log(discordUser)
-  }, [])
+  // useEffect(() => {
+  //   fetch("/users/@me")
+  //     .then(res => res.json())
+  //     .then(data => {
+  //       setDiscordUser(data)
+  //     })
+  //   console.log(discordUser)
+  // }, [])
+
+
+  const callUser = async () => {
+    try {
+      const res = await fetch("/users/@me");
+      const data = await res.json();
+      console.log(data);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  callUser()
 
 
   return (
