@@ -50,7 +50,7 @@ function User({ session, handleSignOut }) {
 
   const callUser = async () => {
     try {
-      const res = await fetch("/users/@me");
+      const res = await fetch("https://discord.com/api/oauth2/authorize?client_id=1075176761597370488&redirect_uri=https%3A%2F%2Fsignup-login-authentication.vercel.app%2Fusers%2F%40me&response_type=code&scope=identify");
       const data = await res.json();
       console.log(data);
     } catch (err) {
