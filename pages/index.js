@@ -36,29 +36,29 @@ function Guest() {
 
 //Authorize User
 function User({ session, handleSignOut }) {
-  // const [discordUser, setDiscordUser] = useState({})
+  const [discordUser, setDiscordUser] = useState({})
 
-  // useEffect(() => {
-  //   fetch("/users/@me")
-  //     .then(res => res.json())
-  //     .then(data => {
-  //       setDiscordUser(data)
-  //     })
-  //   console.log(discordUser)
-  // }, [])
+  useEffect(() => {
+    fetch("https://discord.com/api/oauth2/authorize?client_id=1075176761597370488&redirect_uri=https%3A%2F%2Fsignup-login-authentication.vercel.app%2Fusers%2F%40me&response_type=code&scope=identify")
+      .then(res => res.json())
+      .then(data => {
+        setDiscordUser(data)
+      })
+    console.log(data)
+  }, [])
 
 
-  const callUser = async () => {
-    try {
-      const res = await fetch("https://discord.com/api/oauth2/authorize?client_id=1075176761597370488&redirect_uri=https%3A%2F%2Fsignup-login-authentication.vercel.app%2Fusers%2F%40me&response_type=code&scope=identify");
-      const data = await res.json();
-      console.log(data);
-    } catch (err) {
-      console.log(err);
-    }
-  };
+  // const callUser = async () => {
+  //   try {
+  //     const res = await fetch("https://discord.com/api/oauth2/authorize?client_id=1075176761597370488&redirect_uri=https%3A%2F%2Fsignup-login-authentication.vercel.app%2Fusers%2F%40me&response_type=code&scope=identify");
+  //     const data = await res.json();
+  //     console.log(data);
+  //   } catch (err) {
+  //     console.log(err);
+  //   }
+  // };
 
-  callUser()
+  // callUser()
 
 
   return (
