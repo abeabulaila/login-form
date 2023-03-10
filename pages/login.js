@@ -40,7 +40,7 @@ export default function Login() {
 
     //Discord Handler Function
     async function handleDiscordSignin() {
-        signIn('discord', { callbackUrl: "https://signup-login-authentication.vercel.app/" })
+        signIn('discord', { callbackUrl: "http://localhost:3000/" })
     }
 
 

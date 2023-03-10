@@ -3,10 +3,11 @@ import styles from '@/styles/Home.module.css'
 import Link from 'next/link'
 import { getSession, useSession, signOut } from 'next-auth/react'
 import { useEffect, useState } from 'react';
-
+import Discord from 'next-auth/providers/discord';
 export default function Home() {
 
   const { data: session } = useSession();
+
   function handleSignOut() {
     signOut()
   }
@@ -36,16 +37,17 @@ function Guest() {
 
 //Authorize User
 function User({ session, handleSignOut }) {
-  const [discordUser, setDiscordUser] = useState({})
+  // const [discordUser, setDiscordUser] = useState({})
 
-  useEffect(() => {
-    fetch("https://discord.com/api/users/@me")
-      .then(res => res.json())
-      .then(data => {
-        setDiscordUser(data)
-      })
-    console.log(data)
-  }, [])
+  // useEffect(() => {
+  //   fetch("https://discord.com/api/users/@me")
+  //     .then(res => res.json())
+  //     .then(data => {
+  //       console.log(data)
+  //     })
+  // }, [])
+
+  console.log(Discord)
 
 
   // const callUser = async () => {
@@ -59,7 +61,6 @@ function User({ session, handleSignOut }) {
   // };
 
   // callUser()
-
 
   return (
     <main className='container mx-auto text-center py-20'>
