@@ -5,12 +5,32 @@ import { getSession, useSession, signOut } from 'next-auth/react'
 import { useEffect, useState } from 'react';
 import Discord from 'next-auth/providers/discord';
 export default function Home() {
-
-  const { data: session } = useSession();
+  const [session, loading] = useSession();
+  const [user, setUser] = useState(null);
 
   function handleSignOut() {
     signOut()
   }
+
+  useEffect(() => {
+    if (session?.user?.accessToken) {
+      const client = new Discord.Client();
+      client.login(session.user.accessToken);
+      client.on('ready', async () => {
+        const user = await client.users.fetch(client.user.id);
+        setUser(user);
+        client.destroy();
+      });
+
+      console.log(user)
+      console.log(session)
+    }
+  }, [session]);
+
+  if (loading) {
+    return <p>Loading...</p>;
+  }
+
 
   return (
     <div className={styles.container}>
@@ -27,7 +47,7 @@ export default function Home() {
 function Guest() {
   return (
     <main className='container mx-auto text-center py-20'>
-      <h3 className='text-4xl font-bold'> Guest Homepage </h3>
+      <h3 className='text-4xl font-bold'> Guest Homepage  </h3>
       <div className='flex justify-center'>
         <Link href={'/login'} className='mt-5 px-10 py-1 rounded-sm bg-indigo-500 text-gray'> Sign In</Link>
       </div>
@@ -37,37 +57,17 @@ function Guest() {
 
 //Authorize User
 function User({ session, handleSignOut }) {
-  // const [discordUser, setDiscordUser] = useState({})
 
-  // useEffect(() => {
-  //   fetch("https://discord.com/api/users/@me")
-  //     .then(res => res.json())
-  //     .then(data => {
-  //       console.log(data)
-  //     })
-  // }, [])
-
-  console.log(Discord)
-
-
-  // const callUser = async () => {
-  //   try {
-  //     const res = await fetch("https://discord.com/api/oauth2/authorize?client_id=1075176761597370488&redirect_uri=https%3A%2F%2Fsignup-login-authentication.vercel.app%2Fusers%2F%40me&response_type=code&scope=identify");
-  //     const data = await res.json();
-  //     console.log(data);
-  //   } catch (err) {
-  //     console.log(err);
-  //   }
-  // };
-
-  // callUser()
+console.log(session)
+console.log(user)
 
   return (
     <main className='container mx-auto text-center py-20'>
       <h3 className='text-4xl font-bold'> Authorized User Homepage </h3>
       <div className='details'>
-        <h5>{session.user.name}</h5>
-        <h5>{session.user.email}</h5>
+        <h5>{user.name}</h5>
+        <h5>{user.discriminator}</h5>
+      
 
       </div>
       <div className='flex justify-center'>

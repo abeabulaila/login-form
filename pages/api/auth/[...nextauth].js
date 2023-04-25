@@ -7,66 +7,40 @@ import Users from "@/model/schema";
 import { compare } from "bcryptjs";
 import Discord from "@/lib/discord";
 
-export default NextAuth({
+const options = {
     providers: [
-        //Google Provider
-        GoogleProvider({
-            clientId: process.env.GOOGLE_ID,
-            clientSecret: process.env.GOOGLE_SECRET
-        }),
-
-        //Discord Provider
         DiscordProvider({
             clientId: process.env.DISCORD_ID,
             clientSecret: process.env.DISCORD_SECRET,
-            id: "discord",
-            name: "Discord",
-            type: "oauth",
-            authorization:
-                "https://discord.com/api/oauth2/authorize?scope=identify+email",
-            token: "https://discord.com/api/oauth2/token",
-            userinfo: "https://discord.com/api/users/@me",
+            scope: ['identify', 'email', 'guilds'],
         }),
-
-        //Credentials Provider
-        CredentialsProvider({
-            name: "Credentials",
-            async authorize(credentials, req) {
-                connectMongo().catch(error => { error: "Connection Failed :(" })
-
-                //Check If User Exists
-                const result = await Users.findOne({ email: credentials.email })
-                if (!result) {
-                    throw new Error("No User Found with That Email. Please Sign Up!")
-                }
-
-                //Check Hashed Password
-                const checkPassword = await compare(credentials.password, result.password);
-
-                //Incorrect Password
-                if (!checkPassword || result.email !== credentials.email) {
-                    throw new Error("Username or Password doesn't match");
-                }
-
-                return result;
-            }
-        })
     ],
-
     callbacks: {
-        async session({ session, token, user }) {
-            session.accessToken = token.access_token
-            return session;
-        },
-
-        async jwt({ token, account }) {
-            if (account) {
-                token.accessToken = account.access_token
-                console.log(token.accessToken);
+        async jwt(token, user, account, profile, isNewUser) {
+            if (account?.accessToken) {
+                token.accessToken = account.accessToken;
+                token.refreshToken = account.refreshToken;
             }
             return token;
-        }
-    },
+        },
 
-    secret: "Gi5+VOOEwGzoF21MhP7Pcb/PAxYa7fEwAN2v5wyB2fA="
-})
+        async session(session, token) {
+            session.user.accessToken = token.accessToken;
+            session.user.refreshToken = token.refreshToken;
+
+            if (session.user.accessToken) {
+                client.token = session.user.accessToken;
+                await client.login();
+
+                const user = await client.users.fetch(session.user.id);
+                session.user.username = user.username;
+                session.user.discriminator = user.discriminator;
+                session.user.avatar = user.avatar;
+            }
+            return session;
+        }
+    }
+}
+
+export default (req, res) => NextAuth(req, res, options);
+ 
